@@ -1,31 +1,21 @@
-# RCNet
-Object detection        
+# Refine-CornerNet'RCNet'
+This is Object detection　project.
 
 
 Contact: [mikegao0415@gmail.com](mailto:mikegao0415@gmail.com). Any questions or discussions are welcomed! 
 
-## Abstract 
-
-
-## Highlights
-
-
-
-## Main results
 
 ### Object Detection on COCO validation
 
-| Backbone     |  AP / FPS | Flip AP / FPS|  Multi-scale AP / FPS |
-|--------------|-----------|--------------|-----------------------|
-|Hourglass-104 | 40.3 / 14 | 42.2 / 7.8   | 45.1 / 1.4            |
-
-All models and details are available in our [Model zoo](readme/MODEL_ZOO.md).
+| Backbone         |  AP / FPS | Flip AP / FPS|  Multi-scale AP / FPS |
+|------------------|-----------|--------------|-----------------------|
+|Refine-Hourglass  | 40.3 / 14 | 42.2 / 7.8   | 45.1 / 1.4            |
 
 ## Installation
 
 Please refer to [INSTALL.md](readme/INSTALL.md) for installation instructions.
 
-## Use CenterNet
+## Use Refine-CornerNet
 
 We support demo for image/ image folder, video, and webcam. 
 
