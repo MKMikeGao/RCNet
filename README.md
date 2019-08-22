@@ -1,74 +1,82 @@
-# RCNet Installation
-
-The code was tested on Ubuntu 18.04,with [Anaconda] Python 3.6 and PyTorch v0.4.1 NVIDIA 1070Ti GPUS 
-
-After install Anaconda:
-
-0. [Optional but recommended] create a new conda environment. 
-
-    ~~~
-    conda create --name CenterNet python=3.6
-    ~~~
-    And activate the environment.
-    
-    ~~~
-    conda activate CenterNet
-    ~~~
-
-1. Install pytorch0.4.1:
-
-    ~~~
-    conda install pytorch=0.4.1 torchvision -c pytorch
-    ~~~
-    
-    And disable cudnn batch normalization(Due to [this issue](https://github.com/xingyizhou/pytorch-pose-hg-3d/issues/16)).
-    
-     ~~~
-    # PYTORCH=/path/to/pytorch # usually ~/anaconda3/envs/CenterNet/lib/python3.6/site-packages/
-    # for pytorch v0.4.0
-    sed -i "1194s/torch\.backends\.cudnn\.enabled/False/g" ${PYTORCH}/torch/nn/functional.py
-    # for pytorch v0.4.1
-    sed -i "1254s/torch\.backends\.cudnn\.enabled/False/g" ${PYTORCH}/torch/nn/functional.py
-     ~~~
-     
-     For other pytorch version, you can manually open `torch/nn/functional.py` and find the line with `torch.batch_norm` and replace the `torch.backends.cudnn.enabled` with `False`. We observed slight worse training results without doing so. 
-     
-2. Install [COCOAPI](https://github.com/cocodataset/cocoapi):
-
-    ~~~
-    # COCOAPI=/path/to/clone/cocoapi
-    git clone https://github.com/cocodataset/cocoapi.git $COCOAPI
-    cd $COCOAPI/PythonAPI
-    make
-    python setup.py install --user
-    ~~~
-
-3. Clone this repo:
-
-    ~~~
-    CenterNet_ROOT=/path/to/clone/CenterNet
-    git clone https://github.com/xingyizhou/CenterNet $CenterNet_ROOT
-    ~~~
+# RCNet
+Object detection        
 
 
-4. Install the requirements
+Contact: [mikegao0415@gmail.com](mailto:mikegao0415@gmail.com). Any questions or discussions are welcomed! 
 
-    ~~~
-    pip install -r requirements.txt
-    ~~~
-    
-    
-5. Compile deformable convolutional (from [DCNv2](https://github.com/CharlesShang/DCNv2/tree/pytorch_0.4)).
+## Abstract 
 
-    ~~~
-    cd $CenterNet_ROOT/src/lib/models/networks/DCNv2
-    ./make.sh
-    ~~~
-6. [Optional] Compile NMS if your want to use multi-scale testing or test ExtremeNet.
 
-    ~~~
-    cd $CenterNet_ROOT/src/lib/external
-    make
-    ~~~
+## Highlights
 
-7. Download pertained models for [object detection](https://github.com/xingyizhou/CenterNet/blob/master/experiments/ctdet_coco_hg.sh) move them to `$CenterNet_ROOT/models/`.
+
+
+## Main results
+
+### Object Detection on COCO validation
+
+| Backbone     |  AP / FPS | Flip AP / FPS|  Multi-scale AP / FPS |
+|--------------|-----------|--------------|-----------------------|
+|Hourglass-104 | 40.3 / 14 | 42.2 / 7.8   | 45.1 / 1.4            |
+
+All models and details are available in our [Model zoo](readme/MODEL_ZOO.md).
+
+## Installation
+
+Please refer to [INSTALL.md](readme/INSTALL.md) for installation instructions.
+
+## Use CenterNet
+
+We support demo for image/ image folder, video, and webcam. 
+
+First, download the models (By default, [ctdet_coco_dla_2x](https://drive.google.com/open?id=1pl_-ael8wERdUREEnaIfqOV_VF2bEVRT) for detection and 
+[multi_pose_dla_3x](https://drive.google.com/open?id=1PO1Ax_GDtjiemEmDVD7oPWwqQkUu28PI) for human pose estimation) 
+from the [Model zoo](readme/MODEL_ZOO.md) and put them in `CenterNet_ROOT/models/`.
+
+For object detection on images/ video, run:
+
+~~~
+python demo.py ctdet --demo /path/to/image/or/folder/or/video --load_model ../models/ctdet_coco_dla_2x.pth
+~~~
+We provide example images in `CenterNet_ROOT/images/` (from [Detectron](https://github.com/facebookresearch/Detectron/tree/master/demo)). If set up correctly, the output should look like
+
+<p align="center"> <img src='readme/det1.png' align="center" height="230px"> <img src='readme/det2.png' align="center" height="230px"> </p>
+
+For webcam demo, run     
+
+~~~
+python demo.py ctdet --demo webcam --load_model ../models/ctdet_coco_dla_2x.pth
+~~~
+
+
+You can add `--debug 2` to visualize the heatmap outputs.
+You can add `--flip_test` for flip test.
+
+To use this CenterNet in your own project, you can 
+
+~~~
+import sys
+CENTERNET_PATH = /path/to/CenterNet/src/lib/
+sys.path.insert(0, CENTERNET_PATH)
+
+from detectors.detector_factory import detector_factory
+from opts import opts
+
+MODEL_PATH = /path/to/model
+TASK = 'ctdet' # or 'multi_pose' for human pose estimation
+opt = opts().init('{} --load_model {}'.format(TASK, MODEL_PATH).split(' '))
+detector = detector_factory[opt.task](opt)
+
+img = image/or/path/to/your/image/
+ret = detector.run(img)['results']
+~~~
+`ret` will be a python dict: `{category_id : [[x1, y1, x2, y2, score], ...], }`
+
+## Benchmark Evaluation and Training
+
+After [installation](readme/INSTALL.md), follow the instructions in [DATA.md](readme/DATA.md) to setup the datasets. Then check [GETTING_STARTED.md](readme/GETTING_STARTED.md) to reproduce the results in the paper.
+We provide scripts for all the experiments in the [experiments](experiments) folder.
+
+
+## License
+
