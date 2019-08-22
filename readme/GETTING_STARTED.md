@@ -4,7 +4,7 @@ This document provides tutorials to train and evaluate CenterNet. Before getting
 
 ## Benchmark evaluation
 
-First, download the models you want to evaluate from our [model zoo](MODEL_ZOO.md) and put them in `CenterNet_ROOT/models/`. 
+First, download the models you want to evaluate from CenterNet [model zoo](MODEL_ZOO.md) and put them in `CenterNet_ROOT/models/`. 
 
 ### COCO
 
