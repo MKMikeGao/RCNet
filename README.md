@@ -1,5 +1,5 @@
 # Refine-CornerNet'RCNet'
-This is Object detection　project.
+This is Object detection project.
 
 
 Contact: [mikegao0415@gmail.com](mailto:mikegao0415@gmail.com). Any questions or discussions are welcomed! 
@@ -9,7 +9,7 @@ Contact: [mikegao0415@gmail.com](mailto:mikegao0415@gmail.com). Any questions or
 
 | Backbone         |  AP / FPS | Flip AP / FPS|  Multi-scale AP / FPS |
 |------------------|-----------|--------------|-----------------------|
-|Refine-Hourglass  | 40.3 / 14 | 42.2 / 7.8   | 45.1 / 1.4            |
+|Refine-Hourglass  | 44.6 / 29 | 45.4 / 15   | 46.0 / 4            |
 
 ## Installation
 
