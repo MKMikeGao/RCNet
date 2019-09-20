@@ -1,5 +1,5 @@
 # 'RCNet'(Refine-CornerNet)
-This is Object detection project.
+This is object detection project.　　
 Contact: [mikegao0415@gmail.com](mailto:mikegao0415@gmail.com). Any questions or discussions are welcomed! 
 
 ## Abstract
@@ -62,6 +62,4 @@ ret = detector.run(img)['results']
 After [installation](readme/INSTALL.md), follow the instructions in [DATA.md](readme/DATA.md) to setup the datasets. Then check [GETTING_STARTED.md](readme/GETTING_STARTED.md) to reproduce the results in the paper.
 We provide scripts for all the experiments in the [experiments](experiments) folder.
 
-
-## License
 
